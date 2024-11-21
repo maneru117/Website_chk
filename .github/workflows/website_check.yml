@@ -2,7 +2,7 @@ name: Website Check
 
 on:
   schedule:
-    # This will run at 9 AM UTC every day
+    # This will run at 8 AM UTC every day
     - cron: '0 8 * * *' 
   workflow_dispatch:  # Allows manual triggering of the workflow
 
