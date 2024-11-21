@@ -60,4 +60,4 @@ jobs:
           chmod 600 ~/.msmtprc
 
           # Send the email with the report
-          msmtp -a default mnru117@gmail.com < report.txt
+          msmtp -a default explore1uk@gmail.com < report.txt
