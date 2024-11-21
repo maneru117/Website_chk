@@ -54,8 +54,8 @@ jobs:
       - name: Send Email with Report
         run: |
           # Hardcoded Gmail credentials
-          GMAIL_USER="mnru194@gmail.com"
-          GMAIL_PASSWORD="nztu yuqt kbbw wetp"
+          GMAIL_USER="skilledems@gmail.com"
+          GMAIL_PASSWORD="pcaywxxydokimhpx"
 
           # Install msmtp for sending email
           sudo apt-get update
