@@ -1,0 +1,34 @@
+name: Website Check
+
+on:
+  schedule:
+    # This will run at 9 AM UTC every day
+    - cron: '0 8 * * *' 
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  check-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check Website Status
+        run: |
+          URL="https://example.com"
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" $URL)
+          if [ "$STATUS" -eq 200 ]; then
+            echo "The website $URL is UP." | tee report.txt
+          else
+            echo "The website $URL is DOWN. HTTP Status: $STATUS" | tee report.txt
+          fi
+          # Send email
+          echo "Subject: Website Status Report" > email.txt
+          cat report.txt >> email.txt
+          curl --url 'smtps://smtp.gmail.com:465' --ssl-reqd \
+            --mail-from 'your_email@gmail.com' \
+            --mail-rcpt 'recipient_email@gmail.com' \
+            --upload-file email.txt \
+            --user 'your_email@gmail.com:your_email_password'
+
+
