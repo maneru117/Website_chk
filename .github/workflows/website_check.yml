@@ -1,34 +1,31 @@
-name: Website Check
+name: Website Status Check
 
 on:
   schedule:
-    # This will run at 8 AM UTC every day
-    - cron: '0 8 * * *' 
-  workflow_dispatch:  # Allows manual triggering of the workflow
+    - cron: '0 8 * * *' # Runs daily at 8:00 AM UTC
 
 jobs:
-  check-website:
+  check-websites:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check Website Status
+      - name: Check Websites
         run: |
-          URL="https://www.minidemo.skilledems.com/login" "https://www.demo.skilledems.com/login" "https://www.urielcare.skilledems.com/login" "https://www.ritchies.skilledems.com/login" "https://www.mithaighar.skilledems.com/login" "https://www.devoted.skilledems.com/login" "https://www.graduateplace.skilledems.com/login" "https://www.tandoori.skilledems.com/login" "https://www.keypoint.skilledems.com/login" "https://www.ecogreen.skilledems.com/login" "https://www.nextmove.skilledems.com/login" "https://www.altamira.skilledems.com/login" "https://www.beverage.skilledems.com/login" "https://www.tko.skilledems.com/login" "https://www.elc.skilledems.com/login" "https://www.better.skilledems.com/login" "https://www.servicehub.skilledems.com/login" "https://www.mmholdings.skilledems.com/login"
-          STATUS=$(curl -o /dev/null -s -w "%{http_code}" $URL)
-          if [ "$STATUS" -eq 200 ]; then
-            echo "The website $URL is UP." | tee report.txt
-          else
-            echo "The website $URL is DOWN. HTTP Status: $STATUS" | tee report.txt
-          fi
-          # Send email
-          echo "Subject: Website Status Report" > email.txt
-          cat report.txt >> email.txt
-          curl --url 'smtps://smtp.gmail.com:465' --ssl-reqd \
-            --mail-from 'mnru194@gmail.com' \
-            --mail-rcpt 'mnru117@gmail.com' \
-            --upload-file email.txt \
-            --user 'mnru194@gmail.com:nztu yuqt kbbw wetp'
+          declare -a WEBSITES=(
+            "https://www.minidemo.skilledems.com/login"
+          )
+          REPORT="Website Status Report - $(date)\n\n"
+          for URL in "${WEBSITES[@]}"; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" $URL)
+            if [ "$STATUS" -eq 200 ]; then
+              REPORT+="$URL is UP.\n"
+            else
+              REPORT+="$URL is DOWN. HTTP Status: $STATUS\n"
+            fi
+          done
+          echo -e "$REPORT" | tee report.txt
 
-
+          # Send email (example with sendmail)
+          echo -e "Subject: Website Status Report\n\n$REPORT" | sendmail -v mnru194@gmail.com
