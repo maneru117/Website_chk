@@ -17,7 +17,24 @@ jobs:
         run: |
           # Define the list of websites to check
           WEBSITES=(
-            "https://www.minidemo.skilledems.com/login"
+            "https://www.minidemo.skilledems.com/login" 
+            "https://www.demo.skilledems.com/login"
+            "https://www.urielcare.skilledems.com/login"
+            "https://www.ritchies.skilledems.com/login"
+            "https://www.mithaighar.skilledems.com/login"
+            "https://www.devoted.skilledems.com/login"
+            "https://www.graduateplace.skilledems.com/login"
+            "https://www.tandoori.skilledems.com/login"
+            "https://www.keypoint.skilledems.com/login"
+            "https://www.ecogreen.skilledems.com/login"
+            "https://www.nextmove.skilledems.com/login"
+            "https://www.altamira.skilledems.com/login"
+            "https://www.beverage.skilledems.com/login"
+            "https://www.tko.skilledems.com/login"
+            "https://www.elc.skilledems.com/login"
+            "https://www.better.skilledems.com/login"
+            "https://www.servicehub.skilledems.com/login"
+            "https://www.mmholdings.skilledems.com/login"
           )
 
           # Initialize the report
@@ -60,4 +77,7 @@ jobs:
           chmod 600 ~/.msmtprc
 
           # Send the email with the report
-          msmtp -a default explore1uk@gmail.com < report.txt
+          RECIPIENTS=("recipient1_email@example.com" "recipient2_email@example.com")
+          for EMAIL in "${RECIPIENTS[@]}"; do
+            msmtp -a default "$EMAIL" < report.txt
+          done
