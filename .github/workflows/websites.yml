@@ -79,5 +79,5 @@ jobs:
           # Send the email with the report
           RECIPIENTS=("recipient1_email@example.com" "recipient2_email@example.com")
           for EMAIL in "${RECIPIENTS[@]}"; do
-            msmtp -a default "$EMAIL" < report.txt
+            echo -e "To: $EMAIL\nSubject: SkilledEms Status Report\n\n$(cat report.txt)" | msmtp -a default "$EMAIL"
           done
