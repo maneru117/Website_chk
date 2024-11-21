@@ -11,11 +11,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check Websites
+      - name: Check Website Statuses
+        id: check_websites
         run: |
-          declare -a WEBSITES=(
+          # Define the list of websites to check
+          WEBSITES=(
             "https://www.minidemo.skilledems.com/login"
           )
+
+          # Initialize the report
           REPORT="Website Status Report - $(date)\n\n"
           for URL in "${WEBSITES[@]}"; do
             STATUS=$(curl -o /dev/null -s -w "%{http_code}" $URL)
@@ -25,7 +29,34 @@ jobs:
               REPORT+="$URL is DOWN. HTTP Status: $STATUS\n"
             fi
           done
-          echo -e "$REPORT" | tee report.txt
 
-          # Send email (example with sendmail)
-          echo -e "Subject: Website Status Report\n\n$REPORT" | sendmail -v mnru194@gmail.com
+          # Save the report to a file for email
+          echo -e "$REPORT" > report.txt
+
+      - name: Send Email with Report
+        run: |
+          # Hardcoded Gmail credentials
+          GMAIL_USER="mnru194@gmail.com"
+          GMAIL_PASSWORD="nztu yuqt kbbw wetp"
+
+          # Install msmtp for sending email
+          sudo apt-get update
+          sudo apt-get install -y msmtp
+
+          # Configure msmtp with Gmail SMTP settings
+          echo "defaults" > ~/.msmtprc
+          echo "auth on" >> ~/.msmtprc
+          echo "tls on" >> ~/.msmtprc
+          echo "tls_trust_file /etc/ssl/certs/ca-certificates.crt" >> ~/.msmtprc
+          echo "logfile ~/.msmtp.log" >> ~/.msmtprc
+          echo "account gmail" >> ~/.msmtprc
+          echo "host smtp.gmail.com" >> ~/.msmtprc
+          echo "port 587" >> ~/.msmtprc
+          echo "from $GMAIL_USER" >> ~/.msmtprc
+          echo "user $GMAIL_USER" >> ~/.msmtprc
+          echo "password $GMAIL_PASSWORD" >> ~/.msmtprc
+          echo "account default : gmail" >> ~/.msmtprc
+          chmod 600 ~/.msmtprc
+
+          # Send the email with the report
+          msmtp -a default mnru117@gmail.com < report.txt
