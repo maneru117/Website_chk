@@ -76,7 +76,11 @@ jobs:
           chmod 600 ~/.msmtprc
 
           # Send the email with the report
-          echo -e "To: mnru194@gmail.com, srikerarya@yahoo.com\nSubject: SkilledEms Status Report\n\n$(cat report.txt)" | msmtp -a default explore1uk@gmail.com
+          RECIPIENTS=("mnru194@gmail.com" "srikerarya@yahoo.com")  # Add your recipients here
+          for EMAIL in "${RECIPIENTS[@]}"; do
+          echo -e "To: $EMAIL\nSubject: SkilledEms Status Report\n\n$(cat report.txt)" | msmtp -a default "$EMAIL"
+          done
+          # echo -e "To: mnru194@gmail.com, srikerarya@yahoo.com\nSubject: SkilledEms Status Report\n\n$(cat report.txt)" | msmtp -a default explore1uk@gmail.com
           # RECIPIENTS=("@example.com" "recipient2_email@example.com")
           # for EMAIL in "${RECIPIENTS[@]}"; do
             # echo -e "To: $EMAIL\nSubject: SkilledEms Status Report\n\n$(cat report.txt)" | msmtp -a default "$EMAIL"
