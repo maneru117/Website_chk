@@ -34,6 +34,8 @@ jobs:
             "https://www.better.skilledems.com/login"
             "https://www.servicehub.skilledems.com/login"
             "https://www.mmholdings.skilledems.com/login"
+            "https://lcac.skilledems.com/login"
+            "https://sev.skilledems.com/login"
           )
 
           # Initialize the report
