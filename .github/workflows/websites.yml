@@ -35,6 +35,7 @@ jobs:
             "https://www.servicehub.skilledems.com/login"
             "https://www.mmholdings.skilledems.com/login"
             "https://lcac.skilledems.com/login"
+            "https://ruby.skilledems.com/"
             "https://sev.skilledems.com/login"
           )
 
