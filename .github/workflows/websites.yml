@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Run some command with timeout
+        run: |
+         timeout 120s some-command
+
       - name: Define the list of websites to check
         continue-on-error: true
         run: |
