@@ -1,3 +1,4 @@
+
 name: Website Status Check
 on:
   schedule:
@@ -8,6 +9,12 @@ jobs:
   check-websites:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Define the list of websites to check
+        continue-on-error: true
+        run: |
+    # Your script here
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
